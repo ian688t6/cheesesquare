@@ -1,6 +1,9 @@
 package gc.com.cheesesquare;
 
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -26,8 +29,19 @@ public class MainActivity extends AppCompatActivity {
         ab.setHomeAsUpIndicator(R.drawable.ic_menu);
         ab.setDisplayHomeAsUpEnabled(true);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        final NavigationView navigationView = findViewById(R.id.nav_view);
+        if (navigationView != null) {
+            navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    Snackbar.make(navigationView, item.getTitle() + " pressed", Snackbar.LENGTH_LONG).show();
+                    item.setChecked(true);
+                    mDrawerLayout.closeDrawers();
+                    return true;
+                }
+            });
+        }
     }
 
     @Override
